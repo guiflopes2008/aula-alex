@@ -29,28 +29,75 @@ app.get("/usuarios/:id", async (req, res) => {
 })
 
 
-app.post("/usuarios", async (req, res) => {
+// app.post("/usuarios", async (req, res) => {
+
+//   try {
+
+//     const { body } = req
+//     const [results] = await pool.query(
+//       "INSERT INTO usuario (nome, idade) VALUES (?,?)",
+//       [body.nome, body.idade]
+//     );
+
+//     const [usuarioCriado] = await pool.query(
+//       "Select * From usuario where id=?",
+//       results.insertId
+//     )
+
+//     return res.status(201).json(usuarioCriado)
+
+//   } catch (error) {
+//     console.log(error)
+//   }
+// });
+
+// login
+
+app.post("/login", async (req, res) => {
 
   try {
+    const { email, senha } = req.body;
 
-    const { body } = req
-    const [results] = await pool.query(
-      "INSERT INTO usuario (nome, idade) VALUES (?,?)",
-      [body.nome, body.idade]
-    );
 
-    const [usuarioCriado] = await pool.query(
-      "Select * From usuario where id=?",
-      results.insertId
+    const [usuarioLogado] = await pool.query(
+      "Select * From usuario where email=? and senha=?",
+      [email, senha]
     )
 
-    return res.status(201).json(usuarioCriado)
+    if(usuarioLogado.length >0){
+       return res.status(200).json(usuarioLogado)
+    }
+
+    return res.status(404).json("erro")
 
   } catch (error) {
     console.log(error)
   }
 });
 
+
+// registrar
+app.post("/registrar", async (req, res) => {
+
+  try {
+
+    const { body } = req
+    const [results] = await pool.query(
+      "INSERT INTO usuario (nome, email, senha, idade) VALUES (?,?,?,?)",
+      [body.nome, body.email, body.senha, body.idade]
+    );
+
+    const [usuarioResgistrado] = await pool.query(
+      "Select * From usuario where id=?",
+      results.insertId
+    )
+
+    return res.status(201).json(usuarioResgistrado)
+
+  } catch (error) {
+    console.log(error)
+  }
+});
 
 
 app.delete("/usuarios/:id", async (req, res) => {
