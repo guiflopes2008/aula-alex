@@ -4,7 +4,7 @@ const pool = await mysql.createConnection({
   host: 'localhost',
   user: 'root',
   password: 'senai',
-  database: 'api_node'
+  database: 'user_db'
 });
 const app = express();
 app.use(express.json());
@@ -99,6 +99,37 @@ app.post("/registrar", async (req, res) => {
   }
 });
 
+// get / listar
+app.get("/log", async (req, res) => {
+  const [results] = await pool.query(
+    'SELECT * FROM log'
+  );
+  res.send(results)
+})
+
+// log inserir
+app.post("/log", async (req, res) => {
+
+  try {
+
+    const { body } = req
+    const [results] = await pool.query(
+      "INSERT INTO log (categoria, horas_trabalhadas, linha_de_codigo, bugs_corridos) VALUES (?,?,?,?)",
+      [body.categoria, body.horas_trabalhadas, body.linha_de_codigo, body.bugs_corridos]
+    );
+
+    const [usuariolog] = await pool.query(
+      "Select * From log where id=?",
+      results.insertId
+    )
+
+    return res.status(201).json(usuariolog)
+
+  } catch (error) {
+    console.log(error)
+  }
+});
+
 
 app.delete("/usuarios/:id", async (req, res) => {
   try {
@@ -130,3 +161,5 @@ app.put("/usuarios/:id", async (req, res) => {
 app.listen(3000, () => {
   console.log(`Servidor rodando na porta: 3000`);
 });
+
+
