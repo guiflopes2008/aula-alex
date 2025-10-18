@@ -1,4 +1,5 @@
 import express from "express";
+import cors from "cors";
 import mysql from "mysql2/promise";
 const pool = await mysql.createConnection({
   host: "localhost",
@@ -6,8 +7,10 @@ const pool = await mysql.createConnection({
   password: "senai",
   database: "devhub",
 });
+
 const app = express();
 app.use(express.json());
+app.use(cors());
 
 app.get("/", (req, res) => {
   res.send("Olá Mundo");
@@ -84,7 +87,7 @@ app.post("/registrar", async (req, res) => {
     );
 
     const [usuarioCriado] = await pool.query(
-      "Select * from usuario WHERE idusuario=?",
+      "Select * from usuario WHERE id=?",
       results.insertId
     );
 
@@ -94,6 +97,7 @@ app.post("/registrar", async (req, res) => {
   }
 });
 
+/* LOGIN */
 app.post("/login", async (req, res) => {
   try {
     const { body } = req;
@@ -118,42 +122,39 @@ app.post("/login", async (req, res) => {
 
 // LOGS
 app.get("/logs", async (req, res) => {
-  const {query} = req;
-  const pagina = Number(query.pagina) -1
-  const quantidade = Number(query.quantidade)
-  const offset = pagina * quantidade
+  const { query } = req;
+  const pagina = Number(query.pagina) - 1;
+  const quantidade = Number(query.quantidade);
+  const offset = pagina * quantidade;
 
   const [results] = await pool.query(
-    `SELECT * FROM lgs LIMIT  ?
-     OFFSET ?
-     `, [quantidade, offset]);
-  res.send(results);
-});
-
-app.get("/usuarios/:id", async (req, res) => {
-  const { id } = req.params;
-  const [results] = await pool.query(
-    "SELECT * FROM usuario WHERE idusuario=?",
-    id
+    `
+    SELECT 
+      lgs.id,
+      lgs.categoria,
+      lgs.horas_trabalhadas,
+      lgs.linhas_codigo,
+      lgs.bugs_corrigidos,
+      (SELECT COUNT(*) 
+        FROM devhub.like 
+        WHERE devhub.like.log_id = lgs.id) AS likes,
+      (SELECT COUNT(*) 
+        FROM devhub.comment 
+        WHERE devhub.comment.log_id = lgs.id) AS qnt_comments
+    FROM 
+      devhub.lgs
+    ORDER BY 
+      lgs.id ASC
+    LIMIT ? 
+    OFFSET ?;
+    `,
+    [quantidade, offset]
   );
+  
   res.send(results);
 });
-//categoria
-app.get("/lgs/categoria", async (req,res)=> {
-  try {
-    const [results] = await pool.query(
-      "SELECT distinct(categoria) from lgs",
-    );
-    res.send(results);
-  } catch (error) {
-    console.log(error)
-  }
 
-  });
-
-  
-
-
+// Cadastro de logs
 app.post("/logs", async (req, res) => {
   try {
     const { body } = req;
@@ -176,7 +177,33 @@ app.post("/logs", async (req, res) => {
   }
 });
 
+//likes
+app.get("/likes", async (req, res) => {
+  try {
+    const [results] = await pool.query("SELECT * FROM `like`");
+    res.send(results);
+  } catch (error) {
+    console.log(error);
+  }
+});
+
+app.post("/likes", async (req, res) => {
+  try {
+    const { body } = req;
+    const [results] = await pool.query(
+      "INSERT INTO `like`(log_id, user_id) VALUES(?, ?)",
+      [body.log_id, body.user_id]
+    );
+    const [likeCriado] = await pool.query(
+      "SELECT * FROM `like` WHERE id=?",
+      results.insertId
+    );
+    res.status(201).json(likeCriado);
+  } catch (error) {
+    console.log(error);
+  }
+});
+
 app.listen(3000, () => {
   console.log(`Servidor rodando na porta: 3000`);
 });
-

@@ -17,6 +17,24 @@ CREATE TABLE lgs(
     bugs_corrigidos INT
 );
 
+CREATE TABLE `like` (
+  `log_id` int NOT NULL,
+  `user_id` int NOT NULL,
+  KEY `fk_log_idx` (`log_id`),
+  KEY `fk_user_idx` (`user_id`),
+  CONSTRAINT `fk_log` FOREIGN KEY (`log_id`) REFERENCES `lgs` (`id`),
+  CONSTRAINT `fk_user` FOREIGN KEY (`user_id`) REFERENCES `usuario` (`idusuario`)
+)
+
+insert into devhub.like(log_id, user_id) values (1,1);
+insert into devhub.like(log_id, user_id) values (2,1);
+insert into devhub.like(log_id, user_id) values (1,1);
+insert into devhub.like(log_id, user_id) values (1,1);
+insert into devhub.like(log_id, user_id) values (2,1);
+insert into devhub.like(log_id, user_id) values (3,1);
+insert into devhub.like(log_id, user_id) values (1,1);
+
+insert into devhub.usuario (nome, email, senha, idade) values("Alex", "a@gmail.com", "123", 22)
 
 USE devhub;
 INSERT INTO lgs (categoria, horas_trabalhadas, linhas_codigo, bugs_corrigidos) VALUES ('Desenvolvimento de Gameplay', 22, 1850, 2);
