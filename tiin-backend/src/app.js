@@ -204,6 +204,19 @@ app.post("/likes", async (req, res) => {
   }
 });
 
+app.delete("/like", async (req, res) => {
+  try {
+    const { query } = req;
+    const [results] = await pool.query(
+      "DELETE FROM `like` WHERE user_id=? and log_id=?",
+      [query.user_id, query.log_id]
+    );
+    res.status(200).send("post descurtido!", results);
+  } catch (error) {
+    console.log(error);
+  }
+});
+
 app.listen(3000, () => {
   console.log(`Servidor rodando na porta: 3000`);
 });
