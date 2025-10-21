@@ -217,6 +217,31 @@ app.delete("/like", async (req, res) => {
   }
 });
 
+
+app.post("/logs", async (req, res) => {
+  try {
+    const { body } = req;
+    const [results] = await pool.query(
+      "INSERT INTO lgs(categoria, horas_trabalhadas, linhas_codigo, bugs_corrigidos, user_id) VALUES (?,?, ?, ?, ?)",
+      [
+        body.categoria,
+        body.horas_trabalhadas,
+        body.linhas_codigo,
+        body.bugs_corrigidos,
+        body.user_id
+      ]
+    );
+    const [logCriado] = await pool.query(
+      "SELECT * FROM lgs WHERE id=?",
+      results.insertId
+    );
+    res.status(201).json(logCriado);
+  } catch (error) {
+    console.log(error);
+  }
+});
+
+
 app.listen(3000, () => {
   console.log(`Servidor rodando na porta: 3000`);
 });
