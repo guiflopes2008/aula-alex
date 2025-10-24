@@ -242,6 +242,65 @@ app.post("/logs", async (req, res) => {
 });
 
 
+// horas trabalhadas
+
+app.get("/usuarios/:id/horas", async (req, res) => {
+  try {
+    const { id } = req.params;
+    const [results] = await pool.query(
+      "SELECT SUM(horas_trabalhadas) AS total_horas FROM lgs WHERE user_id = ?",
+      [id]
+    );
+
+    res.json({
+      user_id: id,
+      total_horas: results[0].total_horas || 0,
+    });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: "Erro no servidor" });
+  }
+});
+
+app.get("/usuarios/:id/logs", async (req, res) => {
+  try {
+    const { id } = req.params;
+    const [results] = await pool.query(
+      "SELECT COUNT(*) AS total_logs FROM lgs WHERE user_id = ?",
+      [id]
+    );
+
+    res.json({
+      user_id: id,
+      total_logs: results[0].total_logs || 0,
+    });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: "Erro no servidor" });
+  }
+});
+
+
+app.get("/usuarios/:id/bugs", async (req, res) => {
+  try {
+    const { id } = req.params;
+    const [results] = await pool.query(
+      "SELECT SUM(bugs_corrigidos) AS total_bugs FROM lgs WHERE user_id = ?",
+      [id]
+    );
+
+    res.json({
+      user_id: id,
+      total_bugs: results[0].total_bugs || 0,
+    });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: "Erro no servidor" });
+  }
+});
+
+
+
 app.listen(3000, () => {
   console.log(`Servidor rodando na porta: 3000`);
 });

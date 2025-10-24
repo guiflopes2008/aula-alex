@@ -79,46 +79,82 @@
 <body>
 
     <div class="container">
-        <form id="frmLogin">
+        <form id="frmLog">
             <h3>Cadastro De Logs</h3>
             <form>
                 <div class="mb-3">
-                  <label for="nome" class="form-label">Nome completo</label>
-                  <input type="nome" class="form-control" id="nome">
+                  <label for="categoria" class="form-label">categoria</label>
+                  <input type="text" class="form-control" id="categoria">
                 </div>
 
                 <div class="mb-3">
-                    <label for="number" class="form-label">idade</label>
-                    <input type="number" class="form-control" id="idade">
+                    <label for="horas_trabalhadas" class="form-label">horas_trabalhadas</label>
+                    <input type="number" class="form-control" id="horas_trabalhadas">
                   </div>  
 
                   <div class="mb-3">
-                    <label for="email" class="form-label">E-mail</label>
-                    <input type="email" class="form-control" id="email">
+                    <label for="linhas_codigo" class="form-label">linhas_codigo</label>
+                    <input type="number" class="form-control" id="linhas_codigo">
                   </div> 
                   
 
                 <div class="mb-3">
-                  <label for="senha" class="form-label">Senha</label>
-                  <input type="password" class="form-control" id="senha">
+                  <label for="bugs_corrigidos" class="form-label">bugs_corrigidos</label>
+                  <input type="number" class="form-control" id="bugs_corrigidos">
                 </div>
 
                 <div class="mb-3">
-                    <label for="senha" class="form-label">Confirmar Senha</label>
-                    <input type="password" class="form-control" id="confSenha">
+                    <label for="user_id" class="form-label">user_id</label>
+                    <input type="number" class="form-control" id="user_id">
                   </div>
-
 
                 <button type="submit" class="btn btn-primary">Enviar</button>
                 <a href="/tiin-backend/src/view/index.html">login</a>
             </form>
         </form>
     </div>
-    
+
+    <script>
+      document.getElementById('frmLog').addEventListener('submit', async function(e) {
+        e.preventDefault();
+
+        const categoria = document.getElementById('categoria').value;
+        const horas_trabalhadas = document.getElementById('horas_trabalhadas').value;
+        const linhas_codigo = document.getElementById('linhas_codigo').value;
+        const bugs_corrigidos = document.getElementById('bugs_corrigidos').value;
+        const user_id = document.getElementById('user_id').value;
+
+        const dados = {
+          categoria,
+          horas_trabalhadas,
+          linhas_codigo,
+          bugs_corrigidos,
+          user_id
+        };
+
+        try {
+          const resposta = await fetch('http://localhost:3000/logs', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(dados)
+          });
+
+          if (resposta.ok) {
+            alert(' Log cadastrado com sucesso!');
+            document.getElementById('frmLog').reset();
+          } else {
+            alert(' Erro ao cadastrar log.');
+          }
+        } catch (erro) {
+          alert(' Erro de conexão com o servidor.');
+          console.error(erro);
+        }
+      });
+    </script>
 
 </body>
-
-
 </html>
   </main>
 
