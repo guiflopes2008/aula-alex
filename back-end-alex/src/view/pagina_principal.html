@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>DevHub Dashboard</title>
+
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" />
+
+
+  <link rel="stylesheet" href="style.css" />
+</head>
+
+<body>
+  <!-- Navbar -->
+  <nav class="navbar navbar-expand-lg bg-body-tertiary shadow-sm">
+    <div class="container-fluid">
+      <a class="navbar-brand" href="#">DevHub</a>
+
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+        data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown"
+        aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+
+      <div class="collapse navbar-collapse justify-content-center" id="navbarNavDropdown">
+        <ul class="navbar-nav gap-3">
+          <li class="nav-item"><a class="nav-link active" href="#">Dashboard</a></li>
+          <li class="nav-item"><a class="nav-link" href="#">Projetos</a></li>
+          <li class="nav-item"><a class="nav-link" href="#">Comunidade</a></li>
+          <li class="nav-item"><a class="nav-link" href="#">Recursos</a></li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+
+  <main class="container-fluid mt-5 px-5">
+    <div class="row">
+      <!-- Perfil -->
+      <div class="col-md-3">
+        <div class="card perfil-card text-center ">
+          <img src="/perfil.png" class="rounded-circle mx-auto mt-3" width="120" alt="Perfil">
+          <div class="card-body">
+            <h5 class="card-title fw-bold">João Silva</h5>
+            <p class="text-muted mb-1">area</p>
+            <p class="small text-secondary">detalhes</p>
+          </div>
+        </div>
+      </div>
+
+      <!--Logs -->
+      <div class="col-md-6">
+        <!-- Log 1 -->
+        <div class="card log-card mb-3">
+          <div class="card-body">
+            <div class="d-flex align-items-center mb-2">
+              <img src="https://via.placeholder.com/40" class="rounded-circle me-2" width="40" alt="User">
+              <div>
+                Maria Santos<br>
+                <span class="text-muted small">há 2h</span>
+              </div>
+            </div>
+            <h6 class="fw-bold">Sistema de Inventário Implementado</h6>
+            <p class="text-secondary small">
+              logs
+            <div class="d-flex justify-content-between text-muted small">
+              <span>245 linhas de código</span>
+              <span>12 bugs corrigidos</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Log 2 -->
+        <div class="card log-card mb-3">
+          <div class="card-body">
+            <div class="d-flex align-items-center mb-2">
+              <img src="https://via.placeholder.com/40" class="rounded-circle me-2" width="40" alt="User">
+              <div>
+                João Silva<br>
+                há 6h
+              </div>
+            </div>
+            <h6 class="fw-bold">Modelagem de Personagens Concluída</h6>
+            <p>
+              Terminei a modelagem dos personagens principais, agora partindo para as animações e texturas.
+            </p>
+            <div class="d-flex justify-content-between text-muted small">
+              <span>180 linhas de código</span>
+              <span>5 bugs corrigidos</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+  </main>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+
+</html>
