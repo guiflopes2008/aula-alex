@@ -19,7 +19,7 @@
               <a class="nav-link active" href="cad_usuario.html">Usuarios</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="lista_logs.html">Logs</a>
+              <a class="nav-link" href="listar_logs.html">Logs</a>
             </li>
             <li class="nav-item">
               <a class="nav-link" href="cad_logs.html">Cadastro de Logs</a>
@@ -30,7 +30,7 @@
         </ul>
         <div id="categoria"></div>
         <div style="margin-top: 50px;">
-            <button class="btn btn-danger" id="antecessor"><</button>
+            <button class="btn btn-danger" id="antecessor"></button>
             <button class="btn btn-danger" id="sucessor">></button>
         </div>
     </div>
@@ -46,11 +46,11 @@
     })
     .then((res) => {
         if(!res.ok)
-            console.log("teste: ", res)
+            console.log("resposta res: ", res)
         return res.json();
     }).then((data) => {
         if(data)
-            console.log("aaaaa: ", data)
+            console.log("dados: ", data)
 
         let categoriasHTML = "";
         if(data && Array.isArray(data)){
