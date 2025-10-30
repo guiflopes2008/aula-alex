@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="pt-br">
+
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -37,71 +38,76 @@
       <div class="col-md-3">
         <div class="card perfil-card text-center">
 
-          <div id="categoria">
-
-          </div>
-
-          <img src="/perfil.png" class="rounded-circle mx-auto mt-3" width="120" alt="Perfil">
+          <img src="/back-end-alex/src/view/perfil.png" class="rounded-circle mx-auto mt-3" width="120" alt="Perfil">
           <div class="card-body">
+            <div id="perfil">
             <h5 class="card-title fw-bold"></h5>
             <p class="text-muted mb-1"></p>
             <p class="small text-secondary"></p>
           </div>
         </div>
       </div>
+    </div>
 
-      <!-- Logs -->
-      <div class="col-md-6">
-        <!-- Log 1 -->
-        <div class="card log-card mb-3">
-          <div class="card-body">
-            <div class="d-flex align-items-center mb-2">
-              <img src="https://via.placeholder.com/40" class="rounded-circle me-2" width="40" alt="User">
-              <div>
-                 <br>
-                <span class="text-muted small"></span>
-              </div>
-            </div>
-            <h6 class="fw-bold"></h6>
-            <p class="text-secondary small"></p>
+    <!-- Logs -->
 
-            <div class="d-flex justify-content-between text-muted small align-items-center">
-              <span></span>
-              <span></span>
 
-              <button class="btn btn-like" onclick="toggleLike(this)">
-                <img src="https://cdn-icons-png.flaticon.com/512/833/833472.png" alt="Like" width="16" class="me-1">
-                <span class="like-count"></span> 
-              </button>
-            </div>
-          </div>
-        </div>
 
-        <!-- Log 2 -->
-        <div class="card log-card mb-3">
-          <div class="card-body">
-            <div class="d-flex align-items-center mb-2">
-              <img src="https://via.placeholder.com/40" class="rounded-circle me-2" width="40" alt="User">
-              <div>
+    <div class="col-md-6">
+      <!-- Log 1 -->
+      <div class="card log-card mb-3">
+        <div class="card-body">
+          <div class="d-flex align-items-center mb-2">
+            <img src="/back-end-alex/src/foto/Captura de tela 2025-10-29 210941.png" class="rounded-circle me-2" width="40" alt="User">
+            <div>
+              <div id="log1">
+
                 <br>
                 <span class="text-muted small"></span>
+
               </div>
             </div>
-            <h6 class="fw-bold"></h6>
-            <p></p>
+          </div>
+          <h6 class="fw-bold"></h6>
+          <p class="text-secondary small"></p>
 
-            <div class="d-flex justify-content-between text-muted small align-items-center">
-              <span></span>
-              <span></span>
+          <div class="d-flex justify-content-between text-muted small align-items-center">
+            <span></span>
+            <span></span>
 
-              <button class="btn-like" onclick="like(id_logs, id_usuario)">
-                <img src="https://cdn-icons-png.flaticon.com/512/833/833472.png" alt="Like" width="16" class="me-1">
-                <span class="like-count"></span> 
-              </button>
-            </div>
+            <button onclick="like(1, 2)" id="like-1">
+              ❤️ <span id="count-1">0</span>
+            </button>
+            
           </div>
         </div>
       </div>
+
+      <!-- Log 2 -->
+      <div class="card log-card mb-3">
+        <div class="card-body">
+          <div class="d-flex align-items-center mb-2">
+            <img src="/back-end-alex/src/foto/gabriel.jpg" class="rounded-circle me-2" width="40" alt="User">
+            <div>
+              <br>
+              <span class="text-muted small"></span>
+            </div>
+          </div>
+          <h6 class="fw-bold"></h6>
+          <p></p>
+
+          <div class="d-flex justify-content-between text-muted small align-items-center">
+            <span></span>
+            <span></span>
+
+            <button onclick="like(1, 2)" id="like-1">
+              ❤️ <span id="count-1">0</span>
+            </button>
+            
+          </div>
+        </div>
+      </div>
+    </div>
     </div>
   </main>
 
@@ -112,50 +118,102 @@
 
     const url = "http://localhost:3000/logs?pagina=1&quantidade=10";
     fetch(url, {
-        method: "get",
-        headers: {
-            "Content-Type": "application/json",
-            "Accept": "application/json"
-        },
+      method: "get",
+      headers: {
+        "Content-Type": "application/json",
+        "Accept": "application/json"
+      },
     })
-    .then((res) => {
-        if(!res.ok)
-            console.log("resposta res: ", res)
+      .then((res) => {
+        if (!res.ok)
+          console.log("resposta res: ", res)
         return res.json();
-    }).then((data) => {
-        if(data)
-            console.log("dados: ", data)
+      }).then((data) => {
+        if (data)
+          console.log("dados: ", data)
 
         let categoriasHTML = "";
-        if(data && Array.isArray(data)){
-            for (let index = 0; index < data.length; index++) {
-                const element = data[index];
-                console.log(element.categoria);
-                categoriasHTML += `<div style="border-radius: 4px; border: 1px #cacaca solid; padding: 20px;">
+        if (data && Array.isArray(data)) {
+          for (let index = 0; index < data.length; index++) {
+            const element = data[index];
+            console.log(element.categoria);
+            categoriasHTML += `<div style="border-radius: 4px; border: 1px #cacaca solid; padding: 20px;">
                     Categoria: ${element.categoria} <br>
                     <div style="display: flex; justify-content: column; ">
                         Horas trabalhadas ${element.horas_trabalhadas}
                         Linhas totais do código ${element.linhas_codigo}
                         Bugs corrigidos ${element.bugs_corrigidos}
+
+                        <span onclick="like(${element.log_id}, ${element.user_id})">LIKE</span>
                     </div>
                     </div>`;
-            }
+          }
         }
-        document.getElementById("categoria").innerHTML = categoriasHTML;
+        document.getElementById("log1").innerHTML = categoriasHTML;
+      })
+      .catch((error) => console.log("ERROR: ", error))
+
+
+
+    //  perfil
+    fetch("/registrar", {
+      method: "get",
+      headers: {
+        "Content-Type": "application/json",
+        "Accept": "application/json"
+      },
     })
-    .catch((error) => console.log("ERROR: ", error))
+      .then((res) => {
+        if (!res.ok)
+          console.log("resposta res: ", res)
+        return res.json();
+      }).then((data) => {
+        if (data)
+          console.log("dados: ", data)
+
+        let categoriasHTML = "";
+        if (data && Array.isArray(data)) {
+          for (let index = 0; index < data.length; index++) {
+            const element = data[index];
+            console.log(element.categoria);
+            categoriasHTML += `<div style="border-radius: 4px; border: 1px #cacaca solid; padding: 20px;">
+                    Categoria: ${element.categoria} <br>
+                    <div style="display: flex; justify-content: column; ">
+                        Horas trabalhadas ${element.horas_trabalhadas}
+                        Linhas totais do código ${element.linhas_codigo}
+                        Bugs corrigidos ${element.bugs_corrigidos}
+                                                <span onclick="like(${element.log_id}, ${element.user_id})">LIKE</span>
+
+                    </div>
+                    </div>`;
+          }
+        }
+        document.getElementById("perfil").innerHTML = categoriasHTML;
+      })
+      .catch((error) => console.log("ERROR: ", error));
 
 
+    
+  function like(id_logs, id_usuario) {
+  fetch("http://localhost:3000/likes", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify({ log_id: id_logs, user_id: id_usuario })
+  })
+  .then(res => res.json())
+  .then(data => {
+    console.log("Like:", data);
+
+    const countEl = document.getElementById(`count-${id_logs}`);
+    countEl.textContent = data.qtd_likes;
+  })
+  .catch(error => console.log("Erro ao curtir:", error));
+}
 
 
-    // function like(id_logs, id_user) {
-    //   fetch("/like", {
-    //     method: "POST", 
-    //     body: JSON.stringify({id_logs: id_logs, id_user:id_user})
-    //   }).then(res => res.json())
-    //   .then(data => console.log(data));
-    //   .catch(error => console.log(error));
-    // }
   </script>
 </body>
+
 </html>

@@ -195,7 +195,7 @@ app.post("/likes", async (req, res) => {
       [body.log_id, body.user_id]
     );
     const [likeCriado] = await pool.query(
-      "SELECT * FROM `likes` WHERE id=?",
+      "SELECT * FROM `likes` WHERE log_id=?",
       results.insertId
     );
     res.status(201).json(likeCriado);
